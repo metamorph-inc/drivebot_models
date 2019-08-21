@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<robot name="DriveBot">
+
+  <link name="chassis">
+    <visual>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/Chassis.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="-0.3 0.25 0.1"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/Chassis.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="-0.3 0.25 0.1"/>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.07552" ixy="0.0" ixz="0.0" iyy="0.23177" iyz="0.0" izz="0.17708"/>
+      <origin rpy="1.5708 0 0" xyz="0.2 0 0"/>
+    </inertial>
+  </link>
+
+  <link name="front_left">
+    <visual>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/FrontTire.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.15 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.17"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.15 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.000602" ixy="0.0" ixz="0.0" iyy="0.001858" iyz="0.0" izz="0.001858"/>
+      <origin rpy="0 0 0" xyz="0.0 0.15 0.0"/>
+    </inertial>
+  </link>
+
+  <joint name="front_left_to_chassis" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="chassis"/>
+    <child link="front_left"/>
+    <origin xyz="0.4 0.2 -0.1"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.1"/>
+    <sensor name="front_left" type="force_torque">
+      <update_rate>30</update_rate>
+      <force_torque>
+        <frame>sensor</frame>
+        <measure_direction>child_to_parent</measure_direction>
+      </force_torque>
+    </sensor>
+  </joint>
+
+  <link name="front_right">
+    <visual>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/FrontTire.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 -0.15 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.17"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 -0.15 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.000602" ixy="0.0" ixz="0.0" iyy="0.001858" iyz="0.0" izz="0.001858"/>
+      <origin rpy="0 0 0" xyz="0 -0.15 0"/>
+    </inertial>
+  </link>
+
+  <joint name="front_right_to_chassis" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="chassis"/>
+    <child link="front_right"/>
+    <origin xyz="0.4 -0.2 -0.1"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.1"/>
+  </joint>
+
+  <link name="rear_left">
+    <visual>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/FrontTire.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.05 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.17"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.05 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.000602" ixy="0.0" ixz="0.0" iyy="0.001858" iyz="0.0" izz="0.001858"/>
+      <origin rpy="0 0 0" xyz="0 0.05 0"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_left_to_chassis" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="chassis"/>
+    <child link="rear_left"/>
+    <origin xyz="-0.2 0.35 -0.1"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.1"/>
+  </joint>
+
+  <link name="rear_right">
+    <visual>
+      <geometry>
+        <mesh filename="package://drivebot_description/urdf/FrontTire.stl"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 -0.05 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.17"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 -0.05 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.000602" ixy="0.0" ixz="0.0" iyy="0.001858" iyz="0.0" izz="0.001858"/>
+      <origin rpy="0 0 0" xyz="0 -0.05 0"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_right_to_chassis" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="chassis"/>
+    <child link="rear_right"/>
+    <origin xyz="-0.2 -0.35 -0.1"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.1"/>
+  </joint>
+
+  <link name="boom">
+    <visual>
+      <geometry>
+        <box size="0.05 0.125 0.5"/>
+      </geometry>
+      <origin xyz="0 0 0.25"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.125 0.5"/>
+      </geometry>
+      <origin xyz="0 0 0.25"/>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.011068" ixy="0.0" ixz="0.0" iyy="0.01052" iyz="0.0" izz="0.000755"/>
+      <origin xyz="0 0 0.25"/>
+    </inertial>
+  </link>
+
+  <joint name="boom_to_chassis" type="fixed">
+    <parent link="chassis"/>
+    <child link="boom"/>
+    <origin xyz="-0.25 0 0.1"/>
+  </joint>
+
+  <link name="camera">
+    <visual>
+      <geometry>
+        <box size="0.1 0.135 0.1"/>
+      </geometry>
+      <origin rpy="0 0.174533 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.135 0.1"/>
+      </geometry>
+      <origin rpy="0 0.174533 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.000235" ixy="0.0" ixz="0.0" iyy="0.0001666" iyz="0.0" izz="0.000235"/>
+      <origin rpy="0 0.174533 0" xyz="0 0 0"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_to_boom" type="fixed">
+    <parent link="boom"/>
+    <child link="camera"/>
+    <origin xyz="0 0 0.5"/>
+  </joint>
+
+  <gazebo reference="chassis">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <gazebo reference="boom">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <gazebo reference="front_left">
+    <mu1>0.80</mu1>
+    <mu2>0.95</mu2>
+    <kp>10000000.0</kp>
+    <kd>0.0</kd>
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="front_right">
+    <mu1>0.80</mu1>
+    <mu2>0.95</mu2>
+    <kp>10000000.0</kp>
+    <kd>0.0</kd>
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="rear_left">
+    <mu1>0.80</mu1>
+    <mu2>0.95</mu2>
+    <kp>10000000.0</kp>
+    <kd>0.0</kd>
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="rear_right">
+    <mu1>0.80</mu1>
+    <mu2>0.95</mu2>
+    <kp>10000000.0</kp>
+    <kd>0.0</kd>
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="camera">
+    <material>Gazebo/Red</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="camera">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1].-->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>drivebot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="front_axle_differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <legacyMode>false</legacyMode>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <leftJoint>front_left_to_chassis</leftJoint>
+      <rightJoint>front_right_to_chassis</rightJoint>
+      <wheelSeparation>0.5</wheelSeparation>
+      <wheelDiameter>0.25</wheelDiameter>
+      <torque>15</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="rear_axle_differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <legacyMode>false</legacyMode>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <leftJoint>rear_left_to_chassis</leftJoint>
+      <rightJoint>rear_right_to_chassis</rightJoint>
+      <wheelSeparation>0.75</wheelSeparation>
+      <wheelDiameter>0.25</wheelDiameter>
+      <torque>12.5</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+</robot>

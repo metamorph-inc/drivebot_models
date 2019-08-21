@@ -1,0 +1,31 @@
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find drivebot_gazebo)/world/drivebot.world"/>
+    <!-- more default parameters can be changed here -->
+  </include>
+
+  <!-- Spawn a robot into Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find drivebot_description)/urdf/05-drivebot.urdf -urdf -z 1 -model 05-drivebot" />
+
+  <!-- Start key_publisher node in ROS -->
+  <node name="keyboard_driver" pkg="drivebot_description" type="key_publisher.py" output="screen" launch-prefix="xterm -e" />
+
+  <!-- Start keys_to_twist_with_parameter_server_and_velocity_ramps in ROS -->
+  <!-- NOTE: these parameter values would be useful for the real world since they represent the result of tuning within the simulation -->
+  <node name="keys_to_twist" pkg="drivebot_description" type="keys_to_twist_with_parameter_server_and_velocity_ramps.py" output="screen">
+    <param name="linear_scale" value="0.20" />
+    <param name="angular_scale" value="0.20" />
+    <param name="linear_accel" value="0.50" />
+    <param name="angular_accel" value="0.25" />
+  </node>
+
+  <!-- Start rqt gui with saved perspective displaying drivebot's raw camera sensor feed -->
+  <!-- WARNING: roslaunch makes no guarantees as to what order nodes inside a .launch will
+       be started. This is to encourage good programming practices in the real world -->
+  <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find drivebot_gazebo)/config/drivebot_camera_raw_feed.perspective" />
+
+
+  <!-- We can also remap node topics here to prevent collisions and tie together data streams -->
+
+</launch>

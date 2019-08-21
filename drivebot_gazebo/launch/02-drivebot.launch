@@ -1,0 +1,24 @@
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find drivebot_gazebo)/world/drivebot.world"/>
+    <!-- more default parameters can be changed here -->
+  </include>
+
+  <!-- Spawn a robot into Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find drivebot_description)/urdf/02-drivebot.urdf -urdf -z 1 -model 02-drivebot" />
+
+  <!-- Start key_publisher node in ROS -->
+  <node name="keyboard_driver" pkg="drivebot_description" type="key_publisher.py" output="screen" />
+
+  <!-- Start keys_to_twist_with_parameter_server_and_velocity_ramps in ROS -->
+  <node name="keys_to_twist" pkg="drivebot_description" type="keys_to_twist_with_parameter_server_and_velocity_ramps.py" output="screen">
+    <param name="linear_scale" value="0.5" />
+    <param name="angular_scale" value="1.0" />
+    <param name="linear_accel" value="1.0" />
+    <param name="angular_accel" value="1.0" />
+  </node>
+
+  <!-- We can also remap node topics here to prevent collisions and tie together data streams -->
+
+</launch>

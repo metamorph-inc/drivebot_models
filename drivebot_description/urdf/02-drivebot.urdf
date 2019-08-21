@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<robot name="drivebot">
+
+  <gazebo reference="chassis">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>10000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>10000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="rear_wheel_support">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <gazebo reference="rear_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>10000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <link name="chassis">
+    <visual>
+      <geometry>
+        <box size="1 0.5 0.25"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 0.5 0.25"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.0104" ixy="0.0" ixz="0.0" iyy="0.04166" iyz="0.0" izz="0.05208"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </inertial>
+  </link>  
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 -0.1 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 -0.1 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.047375" ixy="0.0" ixz="0.0" iyy="0.011844" iyz="0.0" izz="0.0078125"/>
+      <origin rpy="1.57075 0 0" xyz="0 -0.1 0"/>
+    </inertial>
+  </link>
+
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0.1 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+      <origin rpy="1.57075 0 0" xyz="0 0.1 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <inertia ixx="0.047375" ixy="0.0" ixz="0.0" iyy="0.011844" iyz="0.0" izz="0.0078125"/>
+      <origin rpy="1.57075 0 0" xyz="0 0.1 0"/>
+    </inertial>
+  </link>
+
+  <link name="rear_wheel_support">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.075"/>      
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.15" radius="0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.075"/>      
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="0.00003958" ixy="0.0" ixz="0.0" iyy="0.00003958" iyz="0.0" izz="0.0000125"/>
+      <origin rpy="0 0 0" xyz="0 0 -0.075"/>       
+    </inertial>
+  </link>
+
+  <link name="rear_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="0.10"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.10"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>      
+    </collision>
+    <inertial>
+      <mass value="0.30"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </inertial> 
+  </link>
+
+  <joint name="chassis_to_right_wheel" type="continuous">
+    <parent link="chassis"/>
+    <child link="left_wheel"/>
+    <origin rpy="0 0 0" xyz="0.45 0.25 -0.125"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+    <dynamics damping="0.0001"/>
+  </joint>
+
+  <joint name="chassis_to_left_wheel" type="continuous">
+    <parent link="chassis"/>
+    <child link="right_wheel"/>
+    <origin rpy="0 0 0" xyz="0.45 -0.25 -0.125"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+    <dynamics damping="0.0001"/>
+  </joint>
+
+  <joint name="chassis_to_rear_wheel_support" type="continuous">
+    <parent link="chassis"/>
+    <child link="rear_wheel_support"/>
+    <origin rpy="0 0 0" xyz="-0.45 0 -0.125"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="100"/>
+    <dynamics damping="0.0001"/>
+  </joint>
+
+  <joint name="rear_wheel_support_to_rear_wheel" type="continuous">
+    <parent link="rear_wheel_support"/>
+    <child link="rear_wheel"/>
+    <origin rpy="0 0 0" xyz="-0.05 0 -0.15"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+    <dynamics damping="0.0001"/>
+  </joint>
+
+  <gazebo>
+    <plugin name="front_wheel_differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <legacyMode>true</legacyMode>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <leftJoint>chassis_to_left_wheel</leftJoint>
+      <rightJoint>chassis_to_right_wheel</rightJoint>
+      <wheelSeparation>0.5</wheelSeparation>
+      <wheelDiameter>0.25</wheelDiameter>
+      <torque>20</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+</robot>
