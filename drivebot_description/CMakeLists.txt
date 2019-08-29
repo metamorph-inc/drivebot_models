@@ -8,10 +8,6 @@ project(drivebot_description)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_plugins
-  rospy
-  std_msgs
-  geometry_msgs
 )
 
 catkin_package(
